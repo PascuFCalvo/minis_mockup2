@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador de Mockups Warhammer</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Roboto", sans-serif;
+        background: #000000;
+        color: #ededed;
+        line-height: 1.6;
+        font-size: 14px;
+        overflow-x: hidden;
+      }
+
+      .grain {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 1;
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            #ffffff03 1px,
+            transparent 1px
+          ),
+          radial-gradient(circle at 75% 75%, #ffffff02 1px, transparent 1px);
+        background-size: 4px 4px, 6px 6px;
+        animation: grain 0.8s steps(10) infinite;
+      }
+
+      @keyframes grain {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        10% {
+          transform: translate(-5%, -10%);
+        }
+        20% {
+          transform: translate(-15%, 5%);
+        }
+        30% {
+          transform: translate(7%, -25%);
+        }
+        40% {
+          transform: translate(-5%, 25%);
+        }
+        50% {
+          transform: translate(-15%, 10%);
+        }
+        60% {
+          transform: translate(15%, 0%);
+        }
+        70% {
+          transform: translate(0%, 15%);
+        }
+        80% {
+          transform: translate(3%, 35%);
+        }
+        90% {
+          transform: translate(-10%, 10%);
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 64px;
+      }
+
+      .header h1 {
+        font-size: clamp(48px, 8vw, 72px);
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffffff 0%, #a1a1a1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+      }
+
+      .header p {
+        font-size: 18px;
+        color: #888888;
+        font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .main-card {
+        background: rgba(24, 24, 27, 0.4);
+        border: 1px solid rgba(39, 39, 42, 0.8);
+        border-radius: 12px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .card-content {
+        padding: 32px;
+      }
+
+      .upload-section {
+        border: 2px dashed rgba(82, 82, 91, 0.5);
+        border-radius: 8px;
+        padding: 48px 32px;
+        text-align: center;
+        margin-bottom: 32px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        background: rgba(39, 39, 42, 0.2);
+      }
+
+      .upload-section:hover {
+        border-color: rgba(161, 161, 170, 0.6);
+        background: rgba(39, 39, 42, 0.4);
+      }
+
+      .upload-section.dragover {
+        border-color: #3b82f6;
+        background: rgba(59, 130, 246, 0.05);
+      }
+
+      .upload-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.7;
+      }
+
+      .upload-text h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #ededed;
+      }
+
+      .upload-text p {
+        color: #a1a1aa;
+        margin-bottom: 24px;
+        font-size: 14px;
+      }
+
+      .file-input {
+        display: none;
+      }
+
+      .btn {
+        background: #ededed;
+        color: #000000;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: inherit;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .btn:hover {
+        background: #d4d4d8;
+        transform: translateY(-1px);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: #ededed;
+        border: 1px solid rgba(82, 82, 91, 0.8);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(39, 39, 42, 0.6);
+        border-color: rgba(161, 161, 170, 0.6);
+      }
+
+      .btn-danger {
+        background: #ef4444;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #dc2626;
+      }
+
+      .btn-success {
+        background: #10b981;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #059669;
+      }
+
+      .images-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .image-item {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid rgba(39, 39, 42, 0.8);
+        background: rgba(24, 24, 27, 0.6);
+        aspect-ratio: 1;
+      }
+
+      .image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .remove-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.8);
+        border: none;
+        color: #fff;
+        width: 24px;
+        height: 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+
+      .remove-btn:hover {
+        background: #ef4444;
+      }
+
+      .section {
+        margin-bottom: 32px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: #ededed;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #ededed;
+      }
+
+      .form-input {
+        background: rgba(39, 39, 42, 0.6);
+        border: 1px solid rgba(82, 82, 91, 0.6);
+        color: #ededed;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: all 0.2s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background: rgba(39, 39, 42, 0.8);
+      }
+
+      .form-input::placeholder {
+        color: #71717a;
+      }
+
+      .select-input {
+        background: rgba(39, 39, 42, 0.6);
+        border: 1px solid rgba(82, 82, 91, 0.6);
+        color: #ededed;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .select-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background: rgba(39, 39, 42, 0.8);
+      }
+
+      .logo-upload {
+        border: 2px dashed rgba(82, 82, 91, 0.5);
+        border-radius: 8px;
+        padding: 32px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: rgba(39, 39, 42, 0.2);
+      }
+
+      .logo-upload:hover {
+        border-color: rgba(161, 161, 170, 0.6);
+        background: rgba(39, 39, 42, 0.4);
+      }
+
+      .logo-upload-text {
+        color: #a1a1aa;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .logo-upload-hint {
+        color: #71717a;
+        font-size: 12px;
+      }
+
+      .logo-preview {
+        max-width: 120px;
+        max-height: 120px;
+        margin-top: 16px;
+        border-radius: 6px;
+        border: 1px solid rgba(82, 82, 91, 0.6);
+      }
+
+      .prompt-input {
+        width: 100%;
+        background: rgba(39, 39, 42, 0.6);
+        border: 1px solid rgba(82, 82, 91, 0.6);
+        color: #ededed;
+        padding: 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+          "Courier New", monospace;
+        line-height: 1.5;
+        resize: vertical;
+        min-height: 120px;
+        transition: all 0.2s ease;
+      }
+
+      .prompt-input:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background: rgba(39, 39, 42, 0.8);
+      }
+
+      .prompt-input::placeholder {
+        color: #71717a;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 48px;
+        display: none;
+      }
+
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border: 2px solid rgba(82, 82, 91, 0.6);
+        border-top: 2px solid #ededed;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 16px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        color: #a1a1aa;
+        font-size: 14px;
+      }
+
+      .result-section {
+        display: none;
+        margin-top: 32px;
+        padding-top: 32px;
+        border-top: 1px solid rgba(39, 39, 42, 0.8);
+      }
+
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 24px;
+        margin-top: 24px;
+      }
+
+      .result-item {
+        background: rgba(24, 24, 27, 0.4);
+        border: 1px solid rgba(39, 39, 42, 0.8);
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      .result-image {
+        width: 100%;
+        border-radius: 6px;
+        border: 1px solid rgba(82, 82, 91, 0.6);
+        margin-bottom: 16px;
+      }
+
+      .result-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #ededed;
+        margin-bottom: 12px;
+      }
+
+      .error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        padding: 16px;
+        border-radius: 8px;
+        margin: 16px 0;
+        display: none;
+        font-size: 14px;
+      }
+
+      .config-section {
+        background: rgba(24, 24, 27, 0.3);
+        border: 1px solid rgba(39, 39, 42, 0.6);
+        border-radius: 8px;
+        padding: 24px;
+        margin-bottom: 32px;
+      }
+
+      .images-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .images-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #ededed;
+      }
+
+      .generate-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        font-weight: 600;
+        padding: 16px;
+        font-size: 16px;
+        margin-top: 8px;
+      }
+
+      .generate-btn:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 24px 16px;
+        }
+
+        .card-content {
+          padding: 24px;
+        }
+
+        .upload-section {
+          padding: 32px 16px;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+        .images-header {
+          flex-direction: column;
+          gap: 12px;
+          align-items: stretch;
+        }
+
+        .header h1 {
+          font-size: 36px;
+        }
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grain"></div>
+
+    <div class="container">
+      <div class="header">
+        <h1>Generador de Mockups</h1>
+        <p>
+          Crea mockups profesionales de miniatures Warhammer con inteligencia
+          artificial
+        </p>
+      </div>
+
+      <div class="main-card">
+        <div class="card-content">
+          <!-- Sección de carga -->
+          <div class="section">
+            <div class="upload-section" id="uploadArea">
+              <div class="upload-icon">📸</div>
+              <div class="upload-text">
+                <h3>Sube tus imágenes</h3>
+                <p>
+                  Arrastra y suelta múltiples imágenes o haz clic para
+                  seleccionar
+                </p>
+              </div>
+              <button
+                class="btn"
+                onclick="document.getElementById('fileInput').click()"
+              >
+                Seleccionar archivos
+              </button>
+              <input
+                type="file"
+                id="fileInput"
+                class="file-input"
+                accept="image/*"
+                multiple
+              />
+            </div>
+          </div>
+
+          <!-- Imágenes cargadas -->
+          <div id="imagesContainer" class="section hidden">
+            <div class="images-header">
+              <h3 class="images-title">Imágenes cargadas</h3>
+              <button class="btn btn-danger" onclick="clearAllImages()">
+                Limpiar todo
+              </button>
+            </div>
+            <div class="images-grid" id="imagesGrid"></div>
+          </div>
+
+          <!-- Configuración -->
+          <div id="configSection" class="section hidden">
+            <div class="config-section">
+              <h3 class="section-title">Configuración del Mockup</h3>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">🏰 Raza/Facción</label>
+                  <input
+                    type="text"
+                    id="razaInput"
+                    class="form-input"
+                    placeholder="Ej: Chaos Dwarves, Space Marines, Orcs..."
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">📦 Título del Producto</label>
+                  <input
+                    type="text"
+                    id="titleInput"
+                    class="form-input"
+                    placeholder="Ej: Elite Warriors Set, Battle Pack..."
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label"
+                  >🏷️ Logo de la Tienda (Opcional)</label
+                >
+                <div
+                  class="logo-upload"
+                  onclick="document.getElementById('logoInput').click()"
+                >
+                  <div class="logo-upload-text">
+                    Arrastra o haz clic para subir logo
+                  </div>
+                  <div class="logo-upload-hint">PNG/JPG hasta 2MB</div>
+                  <img
+                    id="logoPreview"
+                    class="logo-preview hidden"
+                    alt="Logo preview"
+                  />
+                </div>
+                <input
+                  type="file"
+                  id="logoInput"
+                  accept="image/*"
+                  class="hidden"
+                />
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">🖌️ Estado de las Miniatures</label>
+                  <select id="paintState" class="select-input">
+                    <option value="unpainted">
+                      Sin pintar (plástico gris)
+                    </option>
+                    <option value="primed">Imprimadas (blanco)</option>
+                    <option value="painted">Pintadas profesionalmente</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">🏔️ Tipo de Peana</label>
+                  <select id="baseType" class="select-input">
+                    <option value="none">Sin decorar (lisa)</option>
+                    <option value="lava">Lava volcánica</option>
+                    <option value="earth">Tierra y rocas</option>
+                    <option value="snow">Nieve y hielo</option>
+                    <option value="ruins">Ruinas urbanas</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">🌍 Atmósfera del Fondo</label>
+                  <select id="atmosphere" class="select-input">
+                    <option value="volcanic">Volcánica (lava y magma)</option>
+                    <option value="space">
+                      Espacial (estrellas y nebulosas)
+                    </option>
+                    <option value="fantasy">Fantasy (místico y mágico)</option>
+                    <option value="battlefield">Campo de batalla</option>
+                    <option value="gothic">Gótico oscuro</option>
+                    <option value="industrial">Industrial urbano</option>
+                    <option value="forest">Bosque encantado</option>
+                    <option value="desert">Desierto árido</option>
+                    <option value="ice">Glacial helado</option>
+                    <option value="neutral">Neutral profesional</option>
+                  </select>
+                </div>
+              </div>
+
+              <button
+                class="btn"
+                onclick="useWarhammerPrompt()"
+                style="width: 100%; margin-bottom: 16px"
+              >
+                Generar prompt personalizado
+              </button>
+
+              <div class="form-group">
+                <label class="form-label">Prompt personalizado</label>
+                <textarea
+                  id="promptInput"
+                  class="prompt-input"
+                  placeholder="El prompt se generará automáticamente al hacer clic en 'Generar prompt personalizado' o puedes escribir uno personalizado aquí..."
+                ></textarea>
+              </div>
+
+              <button
+                class="btn generate-btn"
+                id="editBtn"
+                onclick="editImages()"
+              >
+                🚀 Generar Mockups
+              </button>
+            </div>
+          </div>
+
+          <!-- Loading -->
+          <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <div class="loading-text">Procesando imágenes con IA...</div>
+          </div>
+
+          <!-- Error -->
+          <div class="error" id="errorSection">
+            <strong>Error:</strong> <span id="errorMessage"></span>
+          </div>
+
+          <!-- Resultados -->
+          <div class="result-section" id="resultSection">
+            <h3 class="section-title">Resultados</h3>
+            <div class="result-grid" id="resultImages"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // API endpoint del backend Express
+      const API_ENDPOINT = "http://localhost:3001/api/generate-mockup";
+
+      // Variables globales
+      let selectedImages = [];
+      let logoBase64 = null;
+
+      // Elementos del DOM
+      const uploadArea = document.getElementById("uploadArea");
+      const fileInput = document.getElementById("fileInput");
+      const imagesContainer = document.getElementById("imagesContainer");
+      const imagesGrid = document.getElementById("imagesGrid");
+      const configSection = document.getElementById("configSection");
+      const promptInput = document.getElementById("promptInput");
+      const loadingSection = document.getElementById("loadingSection");
+      const resultSection = document.getElementById("resultSection");
+      const errorSection = document.getElementById("errorSection");
+      const editBtn = document.getElementById("editBtn");
+
+      // Event listeners
+      uploadArea.addEventListener("dragover", handleDragOver);
+      uploadArea.addEventListener("dragleave", handleDragLeave);
+      uploadArea.addEventListener("drop", handleDrop);
+      uploadArea.addEventListener("click", () => fileInput.click());
+      fileInput.addEventListener("change", handleFileSelect);
+
+      // Logo upload event listener
+      document
+        .getElementById("logoInput")
+        .addEventListener("change", handleLogoUpload);
+
+      function handleLogoUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+          showError("Por favor selecciona un archivo de imagen para el logo");
+          return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+          showError("El logo es demasiado grande. Máximo 2MB");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          logoBase64 = e.target.result.split(",")[1];
+          const logoPreview = document.getElementById("logoPreview");
+          logoPreview.src = e.target.result;
+          logoPreview.classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function handleDragOver(e) {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      }
+
+      function handleDragLeave(e) {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        const files = Array.from(e.dataTransfer.files);
+        handleFiles(files);
+      }
+
+      function handleFileSelect(e) {
+        const files = Array.from(e.target.files);
+        handleFiles(files);
+      }
+
+      function handleFiles(files) {
+        const imageFiles = files.filter((file) =>
+          file.type.startsWith("image/")
+        );
+
+        if (imageFiles.length === 0) {
+          showError("Por favor selecciona archivos de imagen válidos");
+          return;
+        }
+
+        const oversizedFiles = imageFiles.filter(
+          (file) => file.size > 10 * 1024 * 1024
+        );
+        if (oversizedFiles.length > 0) {
+          showError(
+            `${oversizedFiles.length} archivo(s) son demasiado grandes. Máximo 10MB por imagen`
+          );
+          return;
+        }
+
+        imageFiles.forEach((file) => addImage(file));
+        updateUI();
+        hideError();
+      }
+
+      function addImage(file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const imageData = {
+            file: file,
+            base64: e.target.result.split(",")[1],
+            preview: e.target.result,
+            id: Date.now() + Math.random(),
+          };
+
+          selectedImages.push(imageData);
+          renderImages();
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function renderImages() {
+        imagesGrid.innerHTML = "";
+
+        selectedImages.forEach((imageData, index) => {
+          const imageItem = document.createElement("div");
+          imageItem.className = "image-item";
+
+          imageItem.innerHTML = `
+                    <img src="${
+                      imageData.preview
+                    }" class="image-preview" alt="Imagen ${index + 1}">
+                    <button class="remove-btn" onclick="removeImage(${
+                      imageData.id
+                    })">×</button>
+                `;
+
+          imagesGrid.appendChild(imageItem);
+        });
+
+        updateUI();
+      }
+
+      function removeImage(id) {
+        selectedImages = selectedImages.filter((img) => img.id !== id);
+        renderImages();
+      }
+
+      function clearAllImages() {
+        selectedImages = [];
+        renderImages();
+        fileInput.value = "";
+      }
+
+      function updateUI() {
+        if (selectedImages.length > 0) {
+          imagesContainer.classList.remove("hidden");
+          configSection.classList.remove("hidden");
+        } else {
+          imagesContainer.classList.add("hidden");
+          configSection.classList.add("hidden");
+          resultSection.style.display = "none";
+        }
+      }
+
+      function useWarhammerPrompt() {
+        const raza = document.getElementById("razaInput").value.trim();
+        const title = document.getElementById("titleInput").value.trim();
+
+        if (!raza) {
+          showError(
+            "Por favor ingresa una raza/facción (ej: Chaos Dwarves, Space Marines, Orcs)"
+          );
+          return;
+        }
+
+        if (!title) {
+          showError(
+            "Por favor ingresa un título para el producto (ej: Elite Warriors Set)"
+          );
+          return;
+        }
+
+        const paintState = document.getElementById("paintState").value;
+        const baseType = document.getElementById("baseType").value;
+        const atmosphere = document.getElementById("atmosphere").value;
+
+        const paintDescriptions = {
+          unpainted:
+            "miniatures sin pintar en plástico gris natural, mostrando claramente el material plástico sin imprimación ni pintura",
+          primed:
+            "miniatures imprimadas en blanco, con una capa base uniforme de imprimación blanca, sin colores adicionales",
+          painted:
+            "miniatures pintadas profesionalmente con técnicas avanzadas, colores vibrantes y acabados realistas",
+        };
+
+        const baseDescriptions = {
+          none: "",
+          lava: "Las peanas deben mostrar un paisaje volcánico con lava incandescente, rocas negras y efectos de calor.",
+          earth:
+            "Las peanas deben mostrar tierra natural con rocas, hierba seca y textura terrosa.",
+          snow: "Las peanas deben mostrar nieve blanca, hielo y elementos árticos fríos.",
+          ruins:
+            "Las peanas deben mostrar ruinas urbanas con escombros, ladrillos rotos y elementos de ciudad destruida.",
+        };
+
+        const atmosphereDescriptions = {
+          volcanic:
+            "una atmósfera fantasy oscura y volcánica con grietas de magma brillante, texturas de roca negra, humo y efectos de brasas",
+          space:
+            "un ambiente espacial épico con estrellas brillantes, nebulosas coloridas, planetas distantes y efectos cósmicos",
+          fantasy:
+            "una atmósfera mística y fantasy con luces mágicas etéreas, brumas encantadas y efectos sobrenaturales",
+          battlefield:
+            "un campo de batalla dramático con humo de guerra, tierra removida, cielos tormentosos y atmósfera épica de combate",
+          gothic:
+            "una atmósfera gótica oscura con arquitectura sombría, nieblas densas, iluminación dramática y ambiente tenebroso",
+          industrial:
+            "un ambiente industrial urbano con estructuras metálicas, vapor, luces artificiales y textura urbana decadente",
+          forest:
+            "un bosque encantado misterioso con vegetación densa, rayos de luz filtrada, nieblas naturales y ambiente selvático",
+          desert:
+            "un desierto árido épico con dunas de arena, cielos despejados, calor ondulante y vastedad desolada",
+          ice: "un paisaje glacial helado con formaciones de hielo, auroras boreales, nieve abundante y atmósfera ártica",
+          neutral:
+            "un fondo de estudio profesional con iluminación gradient neutra y ambiente limpio sin distracciones",
+        };
+
+        let logoInstruction = "";
+        if (logoBase64) {
+          logoInstruction = `Incluye el logo subido en el packaging de la caja en una posición prominente pero elegante. `;
+        }
+
+        const warhammerPrompt = `🎨 MOCKUP PROFESIONAL DE MINIATURES
+
+Crea un mockup profesional de producto que muestre ${
+          paintDescriptions[paintState]
+        } de la facción ${raza} dentro de una caja de juego de mesa tipo Warhammer.
+
+ESPECIFICACIONES DE LAS MINIATURES:
+- Usa exactamente las mismas miniatures que aparecen en la foto de referencia - no añadas ni quites ninguna figura, objeto o accesorio
+- Reorganiza ligeramente sus posiciones para lograr una composición equilibrada y dinámica, preservando cada miniature original
+- ${paintDescriptions[paintState]}
+${
+  baseType !== "none"
+    ? `- ${baseDescriptions[baseType]}`
+    : "- Las peanas deben ser simples y lisas, sin decoración adicional."
+}
+
+PACKAGING Y COMPOSICIÓN:
+- Coloca las miniatures en la parte frontal de un mockup de caja 3D, como si fuera un set oficial de miniatures de Warhammer
+- La caja debe estar en perspectiva, mostrando el frente y un lado, con iluminación realista, reflejos suaves y sombras para dar profundidad
+- ${logoInstruction}Añade el título "${title}" en la parte frontal de la caja con letras metálicas grabadas grandes y estética fantasy oscura
+
+FONDO Y ATMÓSFERA:
+- El fondo debe presentar ${atmosphereDescriptions[atmosphere]}
+- Mantén el fondo suavemente difuminado para que el foco permanezca completamente en la caja y las figuras
+
+CALIDAD FINAL:
+- La composición general debe verse profesional, dramática y vívida - como una foto de producto de edición premium lista para empaquetado retail
+- Asegúrate de que tenga calidad hiper-realista en todos los aspectos
+
+🚫 EVITAR: baja calidad, borroso, miniatures extra, miniatures faltantes, proporciones distorsionadas, iluminación plana, colores apagados, estilo caricaturesco, aspecto de juguete, elementos sci-fi (a menos que sea apropiado para la facción), tonos lavados, sobreexposición, texto incorrecto, logo equivocado, fondo blanco simple, sin caja, perspectiva pobre, fondo saturado, marca de agua, firma, logos no deseados.`;
+
+        document.getElementById("promptInput").value = warhammerPrompt;
+        hideError();
+
+        promptInput.focus();
+      }
+
+      async function editImages() {
+        const prompt = promptInput.value.trim();
+
+        if (selectedImages.length === 0) {
+          showError("Por favor selecciona al menos una imagen");
+          return;
+        }
+
+        if (!prompt) {
+          showError(
+            "Por favor describe cómo quieres editar las imágenes o genera un prompt automático"
+          );
+          return;
+        }
+
+        showLoading();
+        editBtn.disabled = true;
+
+        try {
+          // Preparamos las imágenes para el backend
+          const imagesPayload = selectedImages.map((img) => ({
+            base64: img.base64,
+            mime_type: img.file.type,
+          }));
+
+          const response = await fetch(API_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              images: imagesPayload,
+              prompt,
+            }),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Error en el backend");
+          }
+
+          const data = await response.json();
+          if (data.results && data.results.length > 0) {
+            // Adaptar para mostrar los resultados igual que antes
+            const results = data.results.map((r, i) => ({
+              original: selectedImages[i]?.preview,
+              edited: r.edited,
+              index: i + 1,
+            }));
+            displayResults(results);
+          } else {
+            throw new Error("No se pudieron procesar las imágenes");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          showError(error.message);
+        } finally {
+          hideLoading();
+          editBtn.disabled = false;
+        }
+      }
+
+      function extractImagesFromResponse(data) {
+        const images = [];
+
+        if (data.candidates && data.candidates.length > 0) {
+          const candidate = data.candidates[0];
+
+          if (candidate.content && candidate.content.parts) {
+            candidate.content.parts.forEach((part) => {
+              if (part.inline_data && part.inline_data.data) {
+                images.push(part.inline_data.data);
+              }
+              if (part.inlineData && part.inlineData.data) {
+                images.push(part.inlineData.data);
+              }
+            });
+          }
+        }
+
+        return images;
+      }
+
+      function displayResults(results) {
+        const resultImages = document.getElementById("resultImages");
+        resultImages.innerHTML = "";
+
+        results.forEach((result, index) => {
+          const resultItem = document.createElement("div");
+          resultItem.className = "result-item";
+
+          const img = document.createElement("img");
+          img.className = "result-image";
+          img.src = `data:image/png;base64,${result.edited}`;
+          img.alt = `Resultado ${result.index}`;
+
+          const title = document.createElement("div");
+          title.className = "result-title";
+          title.textContent = `Imagen ${result.index} - Editada`;
+
+          const downloadBtn = document.createElement("button");
+          downloadBtn.className = "btn btn-success";
+          downloadBtn.textContent = "Descargar";
+          downloadBtn.onclick = () =>
+            downloadImage(
+              result.edited,
+              `mockup-warhammer-${result.index}.png`
+            );
+
+          resultItem.appendChild(img);
+          resultItem.appendChild(title);
+          resultItem.appendChild(downloadBtn);
+          resultImages.appendChild(resultItem);
+        });
+
+        resultSection.style.display = "block";
+        resultSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function downloadImage(base64Data, filename) {
+        const link = document.createElement("a");
+        link.href = `data:image/png;base64,${base64Data}`;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      function showLoading() {
+        loadingSection.style.display = "block";
+        resultSection.style.display = "none";
+        hideError();
+      }
+
+      function hideLoading() {
+        loadingSection.style.display = "none";
+      }
+
+      function showError(message) {
+        document.getElementById("errorMessage").textContent = message;
+        errorSection.style.display = "block";
+        errorSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function hideError() {
+        errorSection.style.display = "none";
+      }
+    </script>
+  </body>
+</html>
